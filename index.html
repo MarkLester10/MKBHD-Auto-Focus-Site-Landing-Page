@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MKBHD | Auto Focus</title>
+
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      href="https://i.imgur.com/ZSMHehm.png"
+      type="image/png"
+    />
+    <link rel="icon" href="https://i.imgur.com/ZSMHehm.png" type="image/png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Fontawesome icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #01050e;
+        --secondary-color: #ec3d4d;
+      }
+
+      html {
+        font-size: 10px;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        color: #fff;
+        height: 100vh;
+      }
+
+      /* Globals */
+      ul {
+        list-style: none;
+      }
+
+      li {
+        display: block;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        letter-spacing: 0.2rem;
+        font-weight: 500;
+      }
+
+      a:hover {
+        color: var(--secondary-color);
+      }
+
+      .title-text {
+        font-size: 10rem;
+        letter-spacing: 2rem;
+        margin-bottom: 1.6rem;
+        font-weight: normal;
+        line-height: 6rem;
+        text-shadow: 0 10px 30px rgba(2, 11, 22, 0.5);
+      }
+
+      .title-text span {
+        font-size: 4.5rem;
+        margin-left: 18rem;
+      }
+
+      .title-lead {
+        color: #fff;
+        font-size: 2.2rem;
+        line-height: 1.5;
+        letter-spacing: 0.1em;
+      }
+
+      .button {
+        display: inline-block;
+        font-size: 1rem;
+        color: #fff;
+        background: var(--secondary-color);
+        font-weight: semibold;
+        padding: 1.6rem 3rem;
+        text-transform: uppercase;
+        transition: 0.3s;
+        letter-spacing: 0.3rem;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        color: #fff;
+      }
+
+      .site-border {
+        display: inline-flex;
+      }
+
+      .site-border span {
+        display: block;
+        width: 1.5rem;
+        height: 2rem;
+        background: var(--secondary-color);
+        clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+      }
+
+      /* End Globals */
+
+      /* Loading style */
+      .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        transition: 1s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #01050e;
+        z-index: 12;
+        overflow: hidden;
+        max-height: 100%;
+      }
+
+      .loading.unload {
+        max-height: 0;
+      }
+
+      .loading-img-container {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        text-align: center;
+        max-height: 100%;
+        transition: all 1s ease;
+      }
+
+      .loading-img-container .auto {
+        width: 16rem;
+        margin: 0 auto;
+        animation: loading 1s ease infinite;
+      }
+
+      @keyframes loading {
+        0% {
+          opacity: 0.3;
+        }
+
+        25% {
+          opacity: 1;
+        }
+
+        60% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0.3;
+        }
+      }
+      /* End Loading style */
+
+      /* Start Header Style */
+
+      header {
+        position: fixed;
+        width: 100%;
+        z-index: 5;
+      }
+
+      .main-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2rem 1.8rem;
+      }
+
+      .main-nav .logo {
+        width: 12rem;
+      }
+      .main-nav .nav {
+        display: flex;
+        align-items: center;
+        color: var(--primary-color);
+      }
+
+      .main-nav .nav .socials-web {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: auto auto;
+        padding: 0;
+      }
+
+      .main-nav .nav .socials-web li {
+        padding: 1rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .main-nav .nav .socials-web a {
+        padding: 1rem 0;
+        margin-left: 1.5rem;
+        border-bottom: 2px solid #fff;
+        transition: all 0.5s ease;
+      }
+
+      .main-nav .nav .socials-web a:hover {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--secondary-color);
+      }
+
+      .main-nav .nav .hamburger-menu {
+        padding-left: 3rem;
+        cursor: pointer;
+        z-index: 10;
+      }
+
+      .main-nav .nav .hamburger-menu .line {
+        width: 3rem;
+        height: 0.2rem;
+        background: var(--primary-color);
+        margin: 0.8rem 0;
+        transition: all 0.5s ease;
+      }
+      .main-nav .nav .hamburger-menu .line:nth-child(2) {
+        margin-left: 0.5rem;
+      }
+
+      .toggle .line1 {
+        transform: rotate(-45deg) translate(-9px, 8px);
+        background: #fff !important;
+      }
+
+      .toggle .line2 {
+        opacity: 0;
+      }
+
+      .toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -5px);
+        background: #fff !important;
+      }
+
+      .navlinks {
+        background: rgb(236, 61, 77);
+        background: linear-gradient(
+          90deg,
+          rgba(236, 61, 77, 1) 0%,
+          #01050e 50%
+        );
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh !important;
+        overflow: hidden;
+        max-height: 0;
+        transition: 0.5s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .navlinks .socials-mobile {
+        display: none;
+      }
+
+      .navlinks ul {
+        padding: 5rem 15rem;
+      }
+
+      .navlinks ul .list-item-container {
+        overflow: hidden;
+        padding: 0 1.5rem;
+        width: 100%;
+        margin: 3rem 0;
+      }
+      .navlinks ul li {
+        transform: translateY(100px);
+        display: flex;
+        align-items: center;
+      }
+      .navlinks ul li .fab {
+        display: inline-block;
+        margin-right: 2rem;
+      }
+
+      .navlinks ul li a {
+        transition: 0.5s ease;
+        font-size: 5rem;
+      }
+
+      @keyframes navLinkFade {
+        to {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+
+      .navlinks.active {
+        max-height: 100vh;
+      }
+      /* End Header Style */
+
+      /* Start Showcase Section */
+
+      main {
+        height: 100vh;
+        width: 100%;
+      }
+      .showcase-section {
+        height: 100%;
+        width: 100%;
+        background: url("https://i.imgur.com/xVPgV4x.png") no-repeat center
+          center/cover;
+        /* background-position: left; */
+        display: flex;
+        align-items: center;
+        padding: 2rem 1.8rem;
+        overflow: hidden;
+      }
+
+      .showcase-content {
+        width: 100%;
+        display: flex;
+      }
+
+      .showcase-content .showcase-lead {
+        display: flex;
+        align-items: center;
+        width: 40%;
+        position: relative;
+      }
+      .showcase-content .showcase-lead .showcase-logo {
+        width: 2rem;
+        position: absolute;
+      }
+      .showcase-content .showcase-lead .showcase-title {
+        z-index: 2;
+        margin-left: 20%;
+      }
+      .showcase-content .showcase-lead .showcase-title .pocket {
+        overflow: hidden;
+        padding: 1rem;
+      }
+
+      .showcase-content .showcase-lead .showcase-title h1,
+      .showcase-content .showcase-lead .showcase-title .site-border,
+      .showcase-content .showcase-lead .showcase-title .title-lead,
+      .showcase-content .showcase-lead .showcase-title .button {
+        transform: translateY(200rem);
+        transition: all 2s ease;
+        animation: slide 2s ease forwards 1.8s;
+      }
+
+      @keyframes slide {
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      .showcase-content .showcase-image {
+        width: 50%;
+        position: relative;
+        /* height: inherit; */
+        box-shadow: 25px 28px 35px 7px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        max-width: 0;
+        transition: all 1.7s ease;
+        animation: expand2 1.7s ease forwards 2.5s;
+      }
+      .showcase-content .showcase-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .showcase-content .showcase-image .image-pan {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ec3d4b81;
+        max-width: 100%;
+        transition: all 1.2s ease;
+        animation: expand 1.2s ease forwards 3s;
+      }
+
+      @keyframes expand {
+        to {
+          max-width: 0;
+        }
+      }
+      @keyframes expand2 {
+        to {
+          max-width: 100%;
+        }
+      }
+
+      .showcase-content .showcase-image::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: inset 10rem -16rem 32rem var(--primary-color);
+      }
+      .showcase-content .showcase-image .image-num {
+        position: absolute;
+        color: #fff;
+        z-index: 2;
+        bottom: 0;
+        right: 0;
+        font-size: 16rem;
+      }
+
+      /* End Showcase Section */
+
+      /* Media Queries */
+
+      @media screen and (max-width: 768px) {
+        .title-text {
+          font-size: 6rem;
+          line-height: 4rem;
+          letter-spacing: 1.5rem;
+        }
+
+        .title-text span {
+          font-size: 2rem;
+          margin-left: 3rem;
+        }
+
+        .main-nav .nav .socials-web {
+          display: none;
+        }
+
+        .navlinks .socials-mobile {
+          display: block;
+        }
+
+        .showcase-content .showcase-lead .showcase-logo {
+          display: none;
+        }
+
+        .showcase-content .showcase-image .image-num {
+          font-size: 5rem !important;
+          bottom: 1rem;
+          right: 1rem;
+        }
+      }
+      @media screen and (max-width: 480px) {
+        .main-nav .logo {
+          width: 10rem;
+        }
+
+        .main-nav .nav .hamburger-menu .line {
+          height: 0.1rem;
+        }
+
+        .main-nav .nav .hamburger-menu .line {
+          background: #fff;
+        }
+
+        .navlinks ul li a {
+          font-size: 3rem;
+        }
+        .title-text {
+          font-size: 6rem;
+          line-height: 4rem;
+          letter-spacing: 1.5rem;
+        }
+
+        .title-text span {
+          font-size: 2rem;
+          margin-left: 3rem;
+        }
+
+        .title-lead {
+          font-size: 1.6rem;
+        }
+
+        .button {
+          width: 100%;
+        }
+        .showcase-section {
+          background-position: left;
+        }
+        .showcase-content {
+          flex-direction: column-reverse;
+        }
+
+        .showcase-content .showcase-lead {
+          width: 100% !important;
+          margin-top: 3rem;
+          position: relative;
+          bottom: 5rem;
+        }
+
+        .showcase-content .showcase-lead .showcase-title {
+          margin-left: 0 !important;
+          width: 100%;
+        }
+
+        .showcase-content .showcase-image {
+          width: 100% !important;
+          margin-top: 40%;
+          height: 100%;
+        }
+
+        .showcase-content .showcase-image::after {
+          box-shadow: inset 5rem 10rem 16rem var(--primary-color) !important;
+        }
+
+        .showcase-content .showcase-image .image-num {
+          font-size: 5rem !important;
+          top: 0.5rem;
+          left: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading">
+      <div class="loading-img-container">
+        <img
+          src="https://i.imgur.com/mAM3jZM.png"
+          class="img-fluid"
+          alt="Logo"
+        />
+        <img
+          src="https://i.imgur.com/BDngdDf.png"
+          class="img-fluid auto"
+          alt="Loading"
+        />
+      </div>
+    </div>
+    <header>
+      <div class="main-nav">
+        <a href="#">
+          <img
+            src="https://i.imgur.com/mAM3jZM.png"
+            class="img-fluid logo"
+            alt="MKBHD Auto Focus"
+          />
+        </a>
+        <div class="nav">
+          <ul class="socials-web">
+            <li>
+              <i class="fab fa-youtube fa-2x"></i>
+              <a href="#"> YouTube</a>
+            </li>
+            <li>
+              <i class="fab fa-twitter fa-2x"></i>
+              <a href="#"> Twitter</a>
+            </li>
+            <li>
+              <i class="fab fa-instagram fa-2x"></i>
+              <a href="#"> Instagram</a>
+            </li>
+          </ul>
+          <div class="hamburger-menu">
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
+          </div>
+        </div>
+      </div>
+      <nav class="navlinks">
+        <ul>
+          <div class="list-item-container">
+            <li><a href="#">Home</a></li>
+          </div>
+          <div class="list-item-container">
+            <li><a href="#">Dope Tech</a></li>
+          </div>
+          <div class="list-item-container">
+            <li><a href="#">Store</a></li>
+          </div>
+          <div class="list-item-container">
+            <li><a href="#">About</a></li>
+          </div>
+          <div class="socials-mobile">
+            <div class="list-item-container">
+              <li>
+                <i class="fab fa-youtube fa-4x"></i>
+                <a href="#" class="block pl-5"> YouTube</a>
+              </li>
+            </div>
+            <div class="list-item-container">
+              <li>
+                <i class="fab fa-twitter fa-4x"></i>
+                <a href="#" class="block pl-5"> Twitter</a>
+              </li>
+            </div>
+            <div class="list-item-container">
+              <li>
+                <i class="fab fa-instagram fa-4x"></i>
+                <a href="#" class="block pl-5"> Instagram</a>
+              </li>
+            </div>
+          </div>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main -->
+    <main>
+      <section class="showcase-section">
+        <div class="showcase-content">
+          <div class="showcase-lead">
+            <div class="showcase-logo">
+              <img
+                src="https://i.imgur.com/QIsKu8e.png"
+                class="img-fluid"
+                alt=""
+              />
+            </div>
+            <div class="showcase-title">
+              <div class="pocket">
+                <h1 class="title-text text-uppercase">
+                  Tesla <br />
+                  <span>Roadster</span>
+                </h1>
+              </div>
+              <div class="pocket">
+                <div class="site-border mt-5">
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+              <div class="pocket">
+                <div class="title-lead mt-5">
+                  Ride Free <br />
+                  That's My Motto
+                </div>
+              </div>
+              <div class="pocket">
+                <a class="button text-uppercase mt-3">More Info</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="showcase-image">
+            <img src="https://i.imgur.com/DeHFyH2.jpg" alt="Tesla Roadster" />
+            <div class="image-pan"></div>
+            <h1 class="image-num">01</h1>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- End Main -->
+
+    <script>
+      const hamburger = document.querySelector(".hamburger-menu");
+      const nav = document.querySelector(".navlinks");
+      const navList = document.querySelectorAll(".navlinks li");
+
+      //toggle nav
+      document.addEventListener("click", (e) => {
+        if (
+          e.target.classList.contains("hamburger-menu") ||
+          e.target.classList.contains("line")
+        ) {
+          nav.classList.toggle("active");
+          navList.forEach((link, index) => {
+            if (link.style.animation) {
+              link.style.animation = "";
+            } else {
+              link.style.animation = `navLinkFade 0.5s ease forwards ${
+                index / 7 + 0.2
+              }s`;
+            }
+          });
+          //animate hamburger icon
+          hamburger.classList.toggle("toggle");
+        }
+      });
+
+      // Loading animation
+      window.addEventListener("DOMContentLoaded", () => {
+        const loading = document.querySelector(".loading");
+        const loadingImg = document.querySelector(".loading-img-container ");
+
+        //Sir For Loading Demonstration lang po, para mashow yung animation hehe
+        setTimeout(() => {
+          loadingImg.style.maxHeight = 0;
+          setTimeout(() => {
+            if (loading.classList.contains("unload")) {
+              loading.classList.remove("unload");
+            } else {
+              loading.classList.add("unload");
+            }
+          }, 900);
+        }, 1200);
+      });
+    </script>
+  </body>
+</html>

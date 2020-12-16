@@ -674,7 +674,14 @@
           </div>
 
           <div class="showcase-image">
-            <img src="https://i.imgur.com/DeHFyH2.jpg" alt="Tesla Roadster" />
+            <div class="h-100 w-100 scene">
+              <img
+                data-depth="0.2"
+                src="https://i.imgur.com/DeHFyH2.jpg"
+                alt="Tesla Roadster"
+              />
+            </div>
+
             <div class="image-pan"></div>
             <h1 class="image-num">01</h1>
           </div>
@@ -683,13 +690,19 @@
     </main>
     <!-- End Main -->
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+
     <script>
       const hamburger = document.querySelector(".hamburger-menu");
       const nav = document.querySelector(".navlinks");
       const navList = document.querySelectorAll(".navlinks li");
 
+      //parallax
+      var scene = document.querySelector(".scene");
+      var parallaxInstance = new Parallax(scene);
+
       //toggle nav
-      document.addEventListener("click", (e) => {
+      document.addEventListener("click", function (e) {
         if (
           e.target.classList.contains("hamburger-menu") ||
           e.target.classList.contains("line")
@@ -710,7 +723,7 @@
       });
 
       // Loading animation
-      window.addEventListener("DOMContentLoaded", () => {
+      window.addEventListener("DOMContentLoaded", function () {
         const loading = document.querySelector(".loading");
         const loadingImg = document.querySelector(".loading-img-container ");
 

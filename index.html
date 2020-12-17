@@ -159,10 +159,11 @@
 
       .site-border span {
         display: block;
-        width: 1.5rem;
-        height: 2rem;
+        width: 1.8rem;
+        height: 3rem;
         background: var(--secondary-color);
         clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+        margin-right: 0.5rem;
       }
 
       #animatedModal {
@@ -420,6 +421,7 @@
         width: 100%;
         height: 74.81%;
         display: flex;
+        position: relative;
       }
 
       .showcase-content .showcase-lead {
@@ -593,9 +595,9 @@
 
         .showcase-content .showcase-lead {
           width: 100% !important;
-          margin-top: 3rem;
+          /* margin-top: 3rem; */
           position: relative;
-          bottom: 5rem;
+          /* bottom: 5rem; */
         }
 
         .showcase-content .showcase-lead .showcase-title {
@@ -605,8 +607,9 @@
 
         .showcase-content .showcase-image {
           width: 100% !important;
-          margin-top: 40%;
-          height: 100%;
+          position: absolute;
+          height: 40%;
+          top: 15%;
         }
 
         .showcase-content .showcase-image::after {
@@ -725,7 +728,7 @@
                 </h1>
               </div>
               <div class="pocket">
-                <div class="site-border mt-5">
+                <div class="site-border mt-3">
                   <span></span>
                   <span></span>
                 </div>

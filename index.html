@@ -86,25 +86,43 @@
         color: var(--secondary-color);
       }
 
+      .paragraph {
+        color: #fff;
+        font-size: 1.6rem;
+        letter-spacing: 0.1rem;
+      }
+
       .title-text {
         font-size: 10rem;
         letter-spacing: 2rem;
         margin-bottom: 1.6rem;
-        font-weight: normal;
         line-height: 6rem;
         text-shadow: 0 10px 30px rgba(2, 11, 22, 0.5);
+      }
+
+      .title-text.active {
+        font-size: 3rem;
+        letter-spacing: 1rem;
       }
 
       .title-text span {
         font-size: 4.5rem;
         margin-left: 18rem;
+        transition: all 0.5s ease;
+      }
+
+      .title-text span.active {
+        font-size: 5rem;
+        letter-spacing: 1.8rem;
+        line-height: 6rem;
+        margin: 0;
       }
 
       .title-lead {
         color: #fff;
         font-size: 2.2rem;
         line-height: 1.5;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.1rem;
       }
 
       .button {
@@ -146,10 +164,15 @@
         transition: all 0.5s ease;
         z-index: 4;
       }
+      .play-btn.active {
+        top: -90%;
+      }
 
       .play-btn:hover {
         color: var(--secondary-color);
       }
+
+      /* End Globals */
 
       /* Utilities */
 
@@ -195,10 +218,7 @@
         transform: rotate(180deg);
         color: var(--secondary-color);
       }
-
       /* End Utilities */
-
-      /* End Globals */
 
       /* Loading style */
       .loading {
@@ -442,6 +462,7 @@
       .showcase-content .showcase-lead .showcase-title .pocket {
         overflow: hidden;
         padding: 1rem;
+        transition: all 0.5s ease;
       }
 
       .showcase-content .showcase-lead .showcase-title h1,
@@ -449,8 +470,8 @@
       .showcase-content .showcase-lead .showcase-title .title-lead,
       .showcase-content .showcase-lead .showcase-title .button {
         transform: translateY(200rem);
-        transition: all 2s ease;
-        animation: slide 2s ease forwards 1.8s;
+        transition: all 1.5s ease;
+        animation: slide 1.5s ease forwards 2.5s;
       }
 
       @keyframes slide {
@@ -474,6 +495,17 @@
         height: 100%;
         object-fit: cover;
       }
+      .showcase-content .showcase-image p.paragraph {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        padding: 2rem;
+        display: none;
+      }
+
       .showcase-content .showcase-image .image-pan {
         content: "";
         position: absolute;
@@ -516,9 +548,43 @@
         font-size: 16rem;
       }
 
+      /* showcase-image active state */
+      .showcase-content .showcase-image.active p.paragraph {
+        display: block;
+      }
+      .showcase-content .showcase-image.active::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(1, 5, 14);
+        background: linear-gradient(
+          90deg,
+          rgba(1, 5, 14, 0.9108018207282913) 0%,
+          rgba(1, 5, 14, 0.4962359943977591) 100%
+        );
+      }
+
+      .showcase-content .showcase-image.active .image-num {
+        font-size: 10rem;
+      }
+
       /* End Showcase Section */
 
       /* Media Queries */
+
+      @media screen and (max-width: 1024px) {
+        .title-text.active {
+          font-size: 3rem;
+        }
+
+        .title-text span.active {
+          font-size: 5rem;
+          letter-spacing: 1rem;
+        }
+      }
 
       @media screen and (max-width: 768px) {
         .title-text {
@@ -528,8 +594,17 @@
         }
 
         .title-text span {
-          font-size: 2rem;
+          font-size: 3rem;
           margin-left: 3rem;
+        }
+
+        .title-text.active {
+          font-size: 2rem;
+        }
+
+        .title-text span.active {
+          font-size: 4rem;
+          letter-spacing: 1rem;
         }
 
         .main-nav .nav .socials-web {
@@ -549,8 +624,15 @@
           bottom: 1rem;
           right: 1rem;
         }
+
+        .showcase-content .showcase-lead .showcase-title {
+          margin-left: 0 !important;
+        }
       }
       @media screen and (max-width: 480px) {
+        .paragraph {
+          font-size: 12px;
+        }
         .title-text {
           font-size: 6rem;
           line-height: 4rem;
@@ -560,6 +642,11 @@
         .title-text span {
           font-size: 2rem;
           margin-left: 3rem;
+        }
+
+        .title-text span.active {
+          font-size: 4.3rem;
+          letter-spacing: 1rem;
         }
 
         .title-lead {
@@ -572,6 +659,10 @@
 
         .play-btn {
           width: 7rem;
+        }
+
+        #animatedModal .close-animatedModal .close {
+          width: 6rem;
         }
 
         .main-nav .logo {
@@ -602,7 +693,6 @@
         }
 
         .showcase-content .showcase-lead .showcase-title {
-          margin-left: 0 !important;
           width: 100%;
         }
 
@@ -613,6 +703,11 @@
           top: 15%;
         }
 
+        .showcase-content .showcase-image p.paragraph {
+          margin-top: 2rem;
+          width: 100%;
+        }
+
         .showcase-content .showcase-image::after {
           box-shadow: inset 5rem -10rem 16rem var(--primary-color) !important;
         }
@@ -621,6 +716,38 @@
           font-size: 5rem !important;
           top: 0.5rem;
           left: 0.5rem;
+        }
+        .showcase-content .showcase-image.active .image-num {
+          font-size: 3rem !important;
+        }
+      }
+
+      @media screen and (max-width: 320px) {
+        .title-lead,
+        .site-border {
+          margin-top: 0 !important;
+        }
+
+        .title-text {
+          font-size: 4rem;
+          line-height: 3rem;
+        }
+
+        .title-text span {
+          font-size: 2rem;
+        }
+
+        .title-text span.active {
+          font-size: 3.5rem;
+        }
+
+        .paragraph {
+          font-size: 10px;
+        }
+
+        .showcase-content .showcase-lead .showcase-title .pocket.active {
+          max-height: 0;
+          padding: 0;
         }
       }
     </style>
@@ -643,8 +770,13 @@
     <header>
       <div class="main-nav">
         <a href="#">
-          <img
+          <!-- <img
             src="https://i.imgur.com/mAM3jZM.png"
+            class="img-fluid logo"
+            alt="MKBHD Auto Focus"
+          /> -->
+          <img
+            src="/images/Logo.png"
             class="img-fluid logo"
             alt="MKBHD Auto Focus"
           />
@@ -664,7 +796,7 @@
               <a href="#"> Instagram</a>
             </li>
           </ul>
-          <div class="hamburger-menu">
+          <div class="hamburger-menu" onclick="toggleNav(event)">
             <div class="line line1"></div>
             <div class="line line2"></div>
             <div class="line line3"></div>
@@ -741,7 +873,9 @@
                 </div>
               </div>
               <div class="pocket">
-                <a class="button text-uppercase mt-3"
+                <a
+                  class="button text-uppercase mt-3"
+                  onclick="toggleDescription(event)"
                   >More Info <i class="fas fa-chevron-right"></i
                 ></a>
               </div>
@@ -756,7 +890,14 @@
                 alt="Tesla Roadster"
               />
             </div>
-
+            <p class="paragraph">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam
+              iure accusantium atque eum perferendis ducimus impedit,
+              perspiciatis placeat, eius commodi delectus repudiandae laboriosam
+              similique aspernatur saepe veniam aliquid quia dolorum maiores
+              nesciunt. Sed illum, tempore asperiores vel sit exercitationem
+              labore?
+            </p>
             <button
               id="playBtn"
               href="#animatedModal"
@@ -782,8 +923,8 @@
                 ></path>
               </svg>
             </button>
-            <div class="image-pan"></div>
             <h1 class="image-num">01</h1>
+            <div class="image-pan"></div>
           </div>
         </div>
       </section>
@@ -819,7 +960,6 @@
         ></iframe>
       </div>
     </div>
-
     <!-- end modal -->
 
     <script
@@ -831,42 +971,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
 
     <script>
-      //modal
-      $(document).ready(function () {
-        $("#playBtn").animatedModal({
-          animatedIn: "lightSpeedIn",
-          animatedOut: "bounceOutDown",
-        });
-      });
-
+      //Selectors
       const hamburger = document.querySelector(".hamburger-menu");
       const nav = document.querySelector(".navlinks");
       const navList = document.querySelectorAll(".navlinks li");
-
-      //parallax
-      var scene = document.querySelector(".scene");
-      var parallaxInstance = new Parallax(scene);
-
-      //toggle nav
-      document.addEventListener("click", function (e) {
-        if (
-          e.target.classList.contains("hamburger-menu") ||
-          e.target.classList.contains("line")
-        ) {
-          nav.classList.toggle("active");
-          navList.forEach((link, index) => {
-            if (link.style.animation) {
-              link.style.animation = "";
-            } else {
-              link.style.animation = `navLinkFade 0.5s ease forwards ${
-                index / 7 + 0.2
-              }s`;
-            }
-          });
-          //animate hamburger icon
-          hamburger.classList.toggle("toggle");
-        }
-      });
+      const scene = document.querySelector(".scene");
+      const titleText = document.querySelector(".title-text");
+      const titleTextSpan = document.querySelector(".title-text span");
+      const titleLead = document.querySelector(".title-lead");
+      const playBtn = document.querySelector("#playBtn");
+      const showCaseImg = document.querySelector(".showcase-image");
 
       // Loading animation
       window.addEventListener("DOMContentLoaded", function () {
@@ -885,6 +999,56 @@
           }, 900);
         }, 1200);
       });
+
+      //modal
+      $(document).ready(function () {
+        $("#playBtn").animatedModal({
+          animatedIn: "lightSpeedIn",
+          animatedOut: "bounceOutDown",
+        });
+      });
+
+      //parallax
+      const parallaxInstance = new Parallax(scene);
+
+      //toggle nav
+      function toggleNav(e) {
+        if (
+          e.target.classList.contains("hamburger-menu") ||
+          e.target.classList.contains("line")
+        ) {
+          nav.classList.toggle("active");
+          navList.forEach((link, index) => {
+            if (link.style.animation) {
+              link.style.animation = "";
+            } else {
+              link.style.animation = `navLinkFade 0.5s ease forwards ${
+                index / 7 + 0.2
+              }s`;
+            }
+          });
+          //animate hamburger
+          hamburger.classList.toggle("toggle");
+        }
+      }
+
+      //toggle description
+      function toggleDescription(e) {
+        e.target.classList.toggle("active");
+        showCaseImg.classList.toggle("active");
+        titleText.classList.toggle("active");
+        titleLead.parentElement.classList.toggle("active");
+        titleTextSpan.classList.toggle("active");
+        playBtn.classList.toggle("active");
+
+        if (e.target.classList.contains("active")) {
+          e.target.innerHTML = `<i class="fas fa-chevron-left"></i
+                > Back`;
+        } else {
+          e.target.innerHTML = `More Info <i class="fas fa-chevron-right"></i
+                >`;
+        }
+      }
     </script>
   </body>
 </html>
